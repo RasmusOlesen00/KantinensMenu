@@ -1,45 +1,77 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+ViewData["Title"] = "Home page";
 }
-<style>
-    table, th, td
-        border: 1px solid black;
-        font-size: 40px;
-    }
-</style>
+@{
+    
+var groupedMenuItems = Model.MenuItems
+.GroupBy(item => item.Uge)
+.OrderBy(group => group.Key);
+}
 <div class="text-center">
-    <h1 class="display-4">Kantinens Menu for uge 45</h1>
-    <table>
+    @foreach (var weekGroup in groupedMenuItems)
+    {
+    <h1 class="display-4">Kantinens Menu for uge @weekGroup.Key</h1>
+    <br />
+    <table class="menu-table">
+        <thead>
         <tr>
             <th>Dag</th>
-            <th>Varm ret</th>
-            <th>Kold ret</th>
+            <th>Kold Ret</th>
+            <th>Varm Ret</th>
         </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in weekGroup.OrderBy(item => {
+        return item.Dag.ToLower() switch
+        {
+        "mandag" => 1,
+        "tirsdag" => 2,
+        "onsdag" => 3,
+        "torsdag" => 4,
+        "fredag" => 5,
+        _ => 99
+        };
+        }))
+        {
         <tr>
-            <td>Man</td>
-            <td>Kylling & pasta</td>
-            <td>Smørebrød</td>
+            <td>@item.Dag</td>
+            <td>@item.KoldRet</td>
+            <td>@item.VarmRet</td>
         </tr>
-        <tr>
-            <td>Tir</td>
-            <td>Lasagne</td>
-            <td>Smørebrød</td>
-        </tr>
-        <tr>
-            <td>Ons</td>
-            <td>Forloren hare</td>
-        <td>Smørebrød</td>
-        </tr>
-        <tr>
-            <td>Tor</td>
-            <td>Wok</td>
-            <td>Smørebrød</td>
-        </tr>
-        <tr>
-            <td>Fre</td>
-            <td>Stegt flæsk</td>
-            <td>Smørebrød</td>
+        }
+        </tbody>
     </table>
+    <br />
+    }
 </div>
+
+<style>
+    .menu-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    .menu-table th, .menu-table td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .menu-table th {
+        background-color: #f2f2f2;
+    }
+
+    h1 {
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+
+    .text-center {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+</style>
