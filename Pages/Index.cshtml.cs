@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Azure.Data.Tables;
 using IBAS_kantine.Model;
 using System.Collections.Generic;
-using Azure.Storage.Blobs;
+
 
 namespace IBAS_kantine.Pages
 {
