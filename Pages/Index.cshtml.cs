@@ -22,11 +22,11 @@ namespace IBAS_kantine.Pages
 
         public void OnGet()
         {
-            // get Blob connection string
-            var connectionString = Environment.GetEnvironmentVariable("AZURE_STORAGEBLOB_CONNECTIONSTRING");
+            // get Table connection string
+            var connectionString = Environment.GetEnvironmentVariable("AZURE_STORAGETABLE_CONNECTIONSTRING");
 
-            // Create a BlobServiceClient object 
-            var blobServiceClient = new BlobServiceClient(connectionString);
+            // Create a TableServiceClient object 
+            TableServiceClient tableServiceClient = new TableServiceClient(connectionString);
             var tableName = "Menu2";
            
             TableClient tableClient = new TableClient(connectionString, tableName);
